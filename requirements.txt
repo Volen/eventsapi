@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+deta
+passlib
+bcrypt
+python-multipart
+python-jose
+jinja2
+websockets
