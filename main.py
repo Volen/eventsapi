@@ -1,6 +1,6 @@
 from datetime import date, datetime, time, timedelta
 from fastapi import FastAPI, WebSocket
-from router import user, poll, first_phase
+from router import user, poll, first_phase, event_dict
 from auth import authentication
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
@@ -30,6 +30,7 @@ app.include_router(authentication.router)
 app.include_router(user.router)
 app.include_router(poll.router)
 app.include_router(first_phase.router)
+app.include_router(event_dict.router)
 
 
 @app.websocket("/first_phase")
@@ -47,12 +48,12 @@ async def websocket_endpoint(websocket: WebSocket):
             start_minutes = int(start_minutes)
             start_seconds = int(start_seconds)
             end_time = datetime.combine(date.today(), time(
-            start_hours, start_minutes, start_seconds)) + timedelta(minutes=first_phase_minutes)
+                start_hours, start_minutes, start_seconds)) + timedelta(minutes=first_phase_minutes)
             first_phase_table = deta.Base('first_phase')
-            first_phase_items = first_phase_table.fetch({"poll_key": active_poll['key']}).items
+            first_phase_items = first_phase_table.fetch(
+                {"poll_key": active_poll['key']}).items
 
-            await sleep(1)
-            # Нужно выводить оставшееся время первой фазы и проголосовавших пользователей.
+            await sleep(2)
             resp = {
                 'endtime': end_time.strftime("%H:%M:%S"),
                 'first_phase_items': first_phase_items,

@@ -32,3 +32,7 @@ class FirstPhaseBase(BaseModel):
   username: str
   time: str
   event: str
+
+
+class EventDictBase(BaseModel):
+    event: str
